@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retro Single Vinyl Player</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #30261d;
+    font-family: Georgia, serif;
+    color: #241b14;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+}
+
+.player {
+    width: min(900px, 100%);
+    background: #d6c19b;
+    border: 10px solid #4a3322;
+    border-radius: 22px;
+    padding: 22px;
+
+    box-shadow:
+        inset 0 0 0 4px #92724e,
+        0 15px 35px #0008;
+}
+
+h1 {
+    text-align: center;
+    margin: 0;
+    letter-spacing: 4px;
+    font-size: 28px;
+}
+
+.subtitle {
+    text-align: center;
+    font-family: monospace;
+    margin-top: 5px;
+    opacity: 0.7;
+}
+
+/* MAIN LAYOUT */
+
+.main {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 30px;
+    align-items: center;
+    margin-top: 25px;
+}
+
+/* TURNTABLE */
+
+.turntable {
+    width: min(430px, 80vw);
+    aspect-ratio: 1;
+    margin: auto;
+
+    background: #30251d;
+    border-radius: 50%;
+    padding: 5%;
+
+    box-shadow:
+        inset 0 0 0 6px #5d4937,
+        0 10px 20px #0007;
+}
+
+.mat {
+    width: 100%;
+    height: 100%;
+
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgb(24, 24, 24);
+}
+
+/* VINYL */
+
+.record {
+    width: 88%;
+    height: 88%;
+
+    border-radius: 50%;
+
+    position: relative;
+
+    background:
+        repeating-radial-gradient(
+            circle,
+            rgb(178, 34, 34) 0px,
+            rgb(178, 34, 34) 2px,
+            rgb(140, 25, 25) 3px,
+            rgb(140, 25, 25) 4px
+        );
+
+    box-shadow:
+        0 8px 15px #0009;
+}
+
+/* MUSIC SYMBOL */
+
+.record::before {
+    content: "♫";
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    font-size: 34px;
+
+    color: #ead39a;
+
+    z-index: 4;
+}
+
+/* CENTER LABEL */
+
+.record::after {
+    content: "";
+
+    position: absolute;
+
+    width: 28%;
+    aspect-ratio: 1;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background: rgb(165, 45, 32);
+
+    border: 5px solid #d9b76a;
+
+    z-index: 3;
+}
+
+/* SPINNING */
+
+.spinning {
+    animation: spin 2.2s linear infinite;
+}
+
+@keyframes spin {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+/* PLAYER PANEL */
+
+.panel {
+    background: #b99d6d;
+
+    border: 5px inset #76583a;
+
+    padding: 18px;
+
+    font-family: monospace;
+}
+
+/* COVER */
+
+.cover {
+    display: block;
+
+    width: 150px;
+    height: 150px;
+
+    object-fit: cover;
+
+    margin: auto;
+
+    background: #8f795b;
+
+    border: 5px solid #493321;
+}
+
+/* TRACK NAME */
+
+.track-name {
+    text-align: center;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    margin: 12px 0;
+
+    word-break: break-word;
+}
+
+/* TIME */
+
+.time {
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 12px;
+}
+
+/* PROGRESS */
+
+.progress {
+    height: 15px;
+
+    background: #32261d;
+
+    border: 2px solid #5d422c;
+
+    margin: 12px 0;
+}
+
+.progress-bar {
+    height: 100%;
+
+    width: 0%;
+
+    background: #d8b45f;
+}
+
+/* BUTTONS */
+
+.buttons {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    gap: 8px;
+}
+
+button,
+label {
+    border: 3px outset #d8c09a;
+
+    background: #cdb487;
+
+    padding: 10px 13px;
+
+    font-family: monospace;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+button:active,
+label:active {
+    border-style: inset;
+}
+
+/* FILE INPUT */
+
+input[type="file"] {
+    display: none;
+}
+
+/* FILE BUTTONS */
+
+.files {
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+/* RGB SECTION */
+
+.colour-section {
+    margin-top: 20px;
+
+    background: #a98e60;
+
+    border: 3px inset #76583a;
+
+    padding: 15px;
+
+    font-family: monospace;
+}
+
+.colour-section h2 {
+    font-size: 16px;
+
+    margin-top: 0;
+}
+
+.colour-row {
+    display: grid;
+
+    grid-template-columns: 100px 1fr;
+
+    gap: 10px;
+
+    align-items: center;
+
+    margin: 10px 0;
+}
+
+.rgb {
+    display: flex;
+
+    gap: 6px;
+}
+
+.rgb input {
+    width: 65px;
+
+    padding: 7px;
+
+    border: 2px inset #76583a;
+
+    background: #eee1c4;
+
+    font-family: monospace;
+}
+
+/* COLOUR PREVIEWS */
+
+.colour-preview {
+    height: 35px;
+
+    margin-top: 12px;
+
+    border: 3px inset #76583a;
+}
+
+/* STATUS */
+
+.status {
+    text-align: center;
+
+    font-family: monospace;
+
+    font-size: 11px;
+
+    margin-top: 12px;
+
+    opacity: 0.75;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    .main {
+        grid-template-columns: 1fr;
+    }
+
+    .turntable {
+        width: min(400px, 85vw);
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="player">
+
+    <h1>◉ RETRO SINGLE PLAYER ◉</h1>
+
+    <div class="subtitle">
+        MODEL VP-1978 • DIGITAL EDITION
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+
+        <!-- TURNTABLE -->
+
+        <div class="turntable">
+
+            <div
+                class="mat"
+                id="mat"
+            >
+
+                <div
+                    class="record"
+                    id="record"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PLAYER -->
+
+        <div class="panel">
+
+            <img
+                id="cover"
+                class="cover"
+                alt="Single cover"
+            >
+
+            <div
+                class="track-name"
+                id="trackName"
+            >
+                NO SINGLE LOADED
+            </div>
+
+
+            <div class="time">
+
+                <span id="currentTime">
+                    0:00
+                </span>
+
+                <span id="duration">
+                    0:00
+                </span>
+
+            </div>
+
+
+            <div class="progress">
+
+                <div
+                    class="progress-bar"
+                    id="progressBar"
+                ></div>
+
+            </div>
+
+
+            <div class="buttons">
+
+                <button id="play">
+                    ▶ PLAY
+                </button>
+
+                <button id="stop">
+                    ■ STOP
+                </button>
+
+                <button id="back">
+                    ↶ -10s
+                </button>
+
+                <button id="forward">
+                    +10s ↷
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FILE LOADING -->
+
+    <div class="files">
+
+        <label>
+
+            🎵 LOAD SINGLE
+
+            <input
+                type="file"
+                id="audioFile"
+                accept="audio/*,.mp3,.wav,.ogg,.m4a,.aac,.flac"
+            >
+
+        </label>
+
+
+        <label>
+
+            🖼 LOAD COVER
+
+            <input
+                type="file"
+                id="coverFile"
+                accept="image/*"
+            >
+
+        </label>
+
+    </div>
+
+
+    <!-- COLOUR CONTROLS -->
+
+    <div class="colour-section">
+
+        <h2>
+            🎨 RECORD COLOUR — RGB
+        </h2>
+
+
+        <div class="colour-row">
+
+            <strong>
+                VINYL
+            </strong>
+
+            <div class="rgb">
+
+                <input
+                    type="number"
+                    id="vinylR"
+                    min="0"
+                    max="255"
+                    value="178"
+                    title="Red"
+                >
+
+                <input
+                    type="number"
+                    id="vinylG"
+                    min="0"
+                    max="255"
+                    value="34"
+                    title="Green"
+                >
+
+                <input
+                    type="number"
+                    id="vinylB"
+                    min="0"
+                    max="255"
+                    value="34"
+                    title="Blue"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="colour-preview"
+            id="vinylPreview"
+        ></div>
+
+
+        <h2>
+            🟫 MAT COLOUR — RGB
+        </h2>
+
+
+        <div class="colour-row">
+
+            <strong>
+                MAT
+            </strong>
+
+            <div class="rgb">
+
+                <input
+                    type="number"
+                    id="matR"
+                    min="0"
+                    max="255"
+                    value="24"
+                    title="Red"
+                >
+
+                <input
+                    type="number"
+                    id="matG"
+                    min="0"
+                    max="255"
+                    value="24"
+                    title="Green"
+                >
+
+                <input
+                    type="number"
+                    id="matB"
+                    min="0"
+                    max="255"
+                    value="24"
+                    title="Blue"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="colour-preview"
+            id="matPreview"
+        ></div>
+
+    </div>
+
+
+    <div class="status">
+        ONE TRACK • ONE COVER • CUSTOM RGB COLOURS
+    </div>
+
+</div>
+
+
+<audio id="audio"></audio>
+
+
+<script>
+
+/* AUDIO */
+
+const audio =
+    document.getElementById("audio");
+
+const record =
+    document.getElementById("record");
+
+const mat =
+    document.getElementById("mat");
+
+const play =
+    document.getElementById("play");
+
+const stop =
+    document.getElementById("stop");
+
+const back =
+    document.getElementById("back");
+
+const forward =
+    document.getElementById("forward");
+
+const audioFile =
+    document.getElementById("audioFile");
+
+const coverFile =
+    document.getElementById("coverFile");
+
+const cover =
+    document.getElementById("cover");
+
+const trackName =
+    document.getElementById("trackName");
+
+const currentTime =
+    document.getElementById("currentTime");
+
+const duration =
+    document.getElementById("duration");
+
+const progressBar =
+    document.getElementById("progressBar");
+
+
+let audioURL = null;
+
+let coverURL = null;
+
+
+/* TIME FORMAT */
+
+function formatTime(seconds) {
+
+    if (!Number.isFinite(seconds)) {
+        return "0:00";
+    }
+
+    seconds = Math.max(0, seconds);
+
+    const minutes =
+        Math.floor(seconds / 60);
+
+    const secondsPart =
+        Math.floor(seconds % 60)
+        .toString()
+        .padStart(2, "0");
+
+    return `${minutes}:${secondsPart}`;
+}
+
+
+/* LOAD MUSIC */
+
+audioFile.addEventListener(
+    "change",
+    function () {
+
+        const file =
+            this.files[0];
+
+        if (!file) return;
+
+
+        if (audioURL) {
+
+            URL.revokeObjectURL(
+                audioURL
+            );
+
+        }
+
+
+        audioURL =
+            URL.createObjectURL(file);
+
+
+        audio.src =
+            audioURL;
+
+
+        trackName.textContent =
+            file.name;
+
+
+        audio.load();
+
+    }
+);
+
+
+/* LOAD COVER */
+
+coverFile.addEventListener(
+    "change",
+    function () {
+
+        const file =
+            this.files[0];
+
+        if (!file) return;
+
+
+        if (coverURL) {
+
+            URL.revokeObjectURL(
+                coverURL
+            );
+
+        }
+
+
+        coverURL =
+            URL.createObjectURL(file);
+
+
+        cover.src =
+            coverURL;
+
+    }
+);
+
+
+/* PLAY / PAUSE */
+
+play.addEventListener(
+    "click",
+    async function () {
+
+        if (!audio.src) return;
+
+
+        if (audio.paused) {
+
+            try {
+
+                await audio.play();
+
+            } catch (error) {
+
+                trackName.textContent =
+                    "THIS AUDIO FORMAT CANNOT BE PLAYED";
+
+            }
+
+        } else {
+
+            audio.pause();
+
+        }
+
+    }
+);
+
+
+/* STOP */
+
+stop.addEventListener(
+    "click",
+    function () {
+
+        audio.pause();
+
+        audio.currentTime = 0;
+
+    }
+);
+
+
+/* BACK 10 SECONDS */
+
+back.addEventListener(
+    "click",
+    function () {
+
+        audio.currentTime =
+            Math.max(
+                0,
+                audio.currentTime - 10
+            );
+
+    }
+);
+
+
+/* FORWARD 10 SECONDS */
+
+forward.addEventListener(
+    "click",
+    function () {
+
+        audio.currentTime =
+            Math.min(
+                audio.duration || audio.currentTime + 10,
+                audio.currentTime + 10
+            );
+
+    }
+);
+
+
+/* VINYL SPIN */
+
+audio.addEventListener(
+    "play",
+    function () {
+
+        record.classList.add(
+            "spinning"
+        );
+
+    }
+);
+
+
+audio.addEventListener(
+    "pause",
+    function () {
+
+        record.classList.remove(
+            "spinning"
+        );
+
+    }
+);
+
+
+audio.addEventListener(
+    "ended",
+    function () {
+
+        record.classList.remove(
+            "spinning"
+        );
+
+    }
+);
+
+
+/* PROGRESS */
+
+audio.addEventListener(
+    "loadedmetadata",
+    function () {
+
+        duration.textContent =
+            formatTime(
+                audio.duration
+            );
+
+    }
+);
+
+
+audio.addEventListener(
+    "timeupdate",
+    function () {
+
+        currentTime.textContent =
+            formatTime(
+                audio.currentTime
+            );
+
+
+        const percentage =
+            audio.duration
+            ? (
+                audio.currentTime /
+                audio.duration
+            ) * 100
+            : 0;
+
+
+        progressBar.style.width =
+            percentage + "%";
+
+    }
+);
+
+
+/* RGB */
+
+function clamp(value) {
+
+    value = Number(value);
+
+    if (!Number.isFinite(value)) {
+        return 0;
+    }
+
+    return Math.max(
+        0,
+        Math.min(255, value)
+    );
+
+}
+
+
+/* VINYL RGB */
+
+function updateVinyl() {
+
+    const r =
+        clamp(
+            document.getElementById(
+                "vinylR"
+            ).value
+        );
+
+    const g =
+        clamp(
+            document.getElementById(
+                "vinylG"
+            ).value
+        );
+
+    const b =
+        clamp(
+            document.getElementById(
+                "vinylB"
+            ).value
+        );
+
+
+    const colour =
+        `rgb(${r}, ${g}, ${b})`;
+
+
+    const darkerColour =
+        `rgb(
+            ${Math.max(0, r - 38)},
+            ${Math.max(0, g - 38)},
+            ${Math.max(0, b - 38)}
+        )`;
+
+
+    record.style.background =
+        `
+        repeating-radial-gradient(
+            circle,
+            ${colour} 0px,
+            ${colour} 2px,
+            ${darkerColour} 3px,
+            ${darkerColour} 4px
+        )
+        `;
+
+
+    document.getElementById(
+        "vinylPreview"
+    ).style.background =
+        colour;
+
+}
+
+
+/* MAT RGB */
+
+function updateMat() {
+
+    const r =
+        clamp(
+            document.getElementById(
+                "matR"
+            ).value
+        );
+
+    const g =
+        clamp(
+            document.getElementById(
+                "matG"
+            ).value
+        );
+
+    const b =
+        clamp(
+            document.getElementById(
+                "matB"
+            ).value
+        );
+
+
+    const colour =
+        `rgb(${r}, ${g}, ${b})`;
+
+
+    mat.style.background =
+        colour;
+
+
+    document.getElementById(
+        "matPreview"
+    ).style.background =
+        colour;
+
+}
+
+
+/* VINYL INPUTS */
+
+[
+    "vinylR",
+    "vinylG",
+    "vinylB"
+].forEach(function (id) {
+
+    document
+        .getElementById(id)
+        .addEventListener(
+            "input",
+            updateVinyl
+        );
+
+});
+
+
+/* MAT INPUTS */
+
+[
+    "matR",
+    "matG",
+    "matB"
+].forEach(function (id) {
+
+    document
+        .getElementById(id)
+        .addEventListener(
+            "input",
+            updateMat
+        );
+
+});
+
+
+/* INITIALISE */
+
+updateVinyl();
+
+updateMat();
+
+</script>
+
+</body>
+</html>
