@@ -3,433 +3,387 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>◉ RETRO VINYL PLAYER ◉</title>
+<title>Retro Single Vinyl Player</title>
 
 <style>
-    * {
-        box-sizing: border-box;
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #30261d;
+    font-family: Georgia, serif;
+    color: #241b14;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+}
+
+.player {
+    width: min(900px, 100%);
+    background: #d6c19b;
+    border: 10px solid #4a3322;
+    border-radius: 22px;
+    padding: 22px;
+
+    box-shadow:
+        inset 0 0 0 4px #92724e,
+        0 15px 35px #0008;
+}
+
+h1 {
+    text-align: center;
+    margin: 0;
+    letter-spacing: 4px;
+    font-size: 28px;
+}
+
+.subtitle {
+    text-align: center;
+    font-family: monospace;
+    margin-top: 5px;
+    opacity: 0.7;
+}
+
+/* MAIN LAYOUT */
+
+.main {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 30px;
+    align-items: center;
+    margin-top: 25px;
+}
+
+/* TURNTABLE */
+
+.turntable {
+    width: min(430px, 80vw);
+    aspect-ratio: 1;
+    margin: auto;
+
+    background: #30251d;
+    border-radius: 50%;
+    padding: 5%;
+
+    box-shadow:
+        inset 0 0 0 6px #5d4937,
+        0 10px 20px #0007;
+}
+
+.mat {
+    width: 100%;
+    height: 100%;
+
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgb(24, 24, 24);
+}
+
+/* VINYL */
+
+.record {
+    width: 88%;
+    height: 88%;
+
+    border-radius: 50%;
+
+    position: relative;
+
+    background:
+        repeating-radial-gradient(
+            circle,
+            rgb(178, 34, 34) 0px,
+            rgb(178, 34, 34) 2px,
+            rgb(140, 25, 25) 3px,
+            rgb(140, 25, 25) 4px
+        );
+
+    box-shadow:
+        0 8px 15px #0009;
+}
+
+/* MUSIC SYMBOL */
+
+/* The cover image replaces the old music-note symbol. */
+.record::before {
+    display: none;
+}
+/* CENTER LABEL */
+
+#recordLabel {
+
+    position: absolute;
+
+    width: 28%;
+    aspect-ratio: 1;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background: rgb(165, 45, 32);
+
+    border: 5px solid #d9b76a;
+
+    overflow: hidden;
+
+    z-index: 10;
+}
+
+#recordCover {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    border-radius: 50%;
+
+    position: relative;
+    z-index: 11;
+}
+
+/* SPINNING */
+
+.spinning {
+    animation: spin 2.2s linear infinite;
+}
+
+@keyframes spin {
+
+    from {
+        transform: rotate(0deg);
     }
 
-    body {
-        margin: 0;
-        min-height: 100vh;
-        background: #d8c3a5;
-        font-family: "Courier New", monospace;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #2b2118;
+    to {
+        transform: rotate(360deg);
     }
 
-    .player {
-        width: 950px;
-        max-width: 95vw;
-        background: #8b5e3c;
-        border: 8px solid #4a2e1d;
-        border-radius: 18px;
-        padding: 25px;
-        box-shadow:
-            10px 10px 0 #3b2518,
-            inset 0 0 0 4px #b98255;
-    }
+}
 
-    h1 {
-        text-align: center;
-        margin: 0 0 20px;
-        font-size: 28px;
-        letter-spacing: 3px;
-    }
+/* PLAYER PANEL */
+
+.panel {
+    background: #b99d6d;
+
+    border: 5px inset #76583a;
+
+    padding: 18px;
+
+    font-family: monospace;
+}
+
+/* COVER */
+
+.cover {
+    display: block;
+
+    width: 150px;
+    height: 150px;
+
+    object-fit: cover;
+
+    margin: auto;
+
+    background: #8f795b;
+
+    border: 5px solid #493321;
+}
+
+/* TRACK NAME */
+
+.track-name {
+    text-align: center;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    margin: 12px 0;
+
+    word-break: break-word;
+}
+
+/* TIME */
+
+.time {
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 12px;
+}
+
+/* PROGRESS */
+
+.progress {
+    height: 15px;
+
+    background: #32261d;
+
+    border: 2px solid #5d422c;
+
+    margin: 12px 0;
+}
+
+.progress-bar {
+    height: 100%;
+
+    width: 0%;
+
+    background: #d8b45f;
+}
+
+/* BUTTONS */
+
+.buttons {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    gap: 8px;
+}
+
+button,
+label {
+    border: 3px outset #d8c09a;
+
+    background: #cdb487;
+
+    padding: 10px 13px;
+
+    font-family: monospace;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+button:active,
+label:active {
+    border-style: inset;
+}
+
+/* FILE INPUT */
+
+input[type="file"] {
+    display: none;
+}
+
+/* FILE BUTTONS */
+
+.files {
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+/* RGB SECTION */
+
+.colour-section {
+    margin-top: 20px;
+
+    background: #a98e60;
+
+    border: 3px inset #76583a;
+
+    padding: 15px;
+
+    font-family: monospace;
+}
+
+.colour-section h2 {
+    font-size: 16px;
+
+    margin-top: 0;
+}
+
+.colour-row {
+    display: grid;
+
+    grid-template-columns: 100px 1fr;
+
+    gap: 10px;
+
+    align-items: center;
+
+    margin: 10px 0;
+}
+
+.rgb {
+    display: flex;
+
+    gap: 6px;
+}
+
+.rgb input {
+    width: 65px;
+
+    padding: 7px;
+
+    border: 2px inset #76583a;
+
+    background: #eee1c4;
+
+    font-family: monospace;
+}
+
+/* COLOUR PREVIEWS */
+
+.colour-preview {
+    height: 35px;
+
+    margin-top: 12px;
+
+    border: 3px inset #76583a;
+}
+
+/* STATUS */
+
+.status {
+    text-align: center;
+
+    font-family: monospace;
+
+    font-size: 11px;
+
+    margin-top: 12px;
+
+    opacity: 0.75;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
 
     .main {
-        display: flex;
-        gap: 30px;
-        align-items: center;
-        justify-content: center;
+        grid-template-columns: 1fr;
     }
-
-    /* =========================
-       TURNTABLE
-       ========================= */
 
     .turntable {
-        position: relative;
-        width: 460px;
-        height: 460px;
-        background: #654329;
-        border: 10px solid #3b2518;
-        border-radius: 50%;
-        box-shadow:
-            inset 0 0 0 8px #986844,
-            8px 8px 0 #3b2518;
-        flex-shrink: 0;
+        width: min(400px, 85vw);
     }
 
-    .mat {
-        position: absolute;
-        width: 94%;
-        height: 94%;
-        left: 3%;
-        top: 3%;
-        border-radius: 50%;
-        background: rgb(45, 45, 45);
-        transition: background 0.2s;
-    }
-
-    .record {
-        position: absolute;
-        width: 88%;
-        height: 88%;
-        left: 6%;
-        top: 6%;
-        border-radius: 50%;
-
-        background:
-            repeating-radial-gradient(
-                circle at center,
-                rgb(20, 20, 20) 0px,
-                rgb(20, 20, 20) 3px,
-                rgb(5, 5, 5) 4px,
-                rgb(20, 20, 20) 6px
-            );
-
-        box-shadow:
-            inset 0 0 0 4px #111,
-            0 0 8px #111;
-
-        transform-origin: center;
-    }
-
-    .record.spinning {
-        animation: spin 2s linear infinite;
-    }
-
-    @keyframes spin {
-        from {
-            transform: rotate(0deg);
-        }
-
-        to {
-            transform: rotate(360deg);
-        }
-    }
-
-    /* =========================
-       RECORD COVER
-       ========================= */
-
-    #recordCover {
-        position: absolute;
-        width: 30%;
-        height: 30%;
-        left: 35%;
-        top: 35%;
-
-        border-radius: 50%;
-        object-fit: cover;
-
-        display: none;
-
-        border: 5px solid #222;
-        box-shadow: 0 0 0 3px #555;
-
-        z-index: 4;
-    }
-
-    .recordLabel {
-        position: absolute;
-        width: 30%;
-        height: 30%;
-        left: 35%;
-        top: 35%;
-
-        border-radius: 50%;
-        background: #c9a227;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        font-size: 35px;
-        color: #222;
-
-        border: 5px solid #333;
-
-        z-index: 3;
-    }
-
-    .recordHole {
-        position: absolute;
-        width: 16px;
-        height: 16px;
-        left: calc(50% - 8px);
-        top: calc(50% - 8px);
-
-        background: #222;
-        border-radius: 50%;
-        z-index: 5;
-    }
-
-    /* =========================
-       NEEDLE
-       ========================= */
-
-    .needle-arm {
-        position: absolute;
-
-        width: 32%;
-        height: 10px;
-
-        right: 8%;
-        top: 18%;
-
-        background: #222;
-        border-radius: 10px;
-
-        /*
-           Pivot is on the RIGHT.
-           The arm extends down-left.
-        */
-        transform-origin: 100% 50%;
-        transform: rotate(135deg);
-
-        z-index: 10;
-
-        box-shadow: 0 2px 2px rgba(0,0,0,0.35);
-    }
-
-    .needle-base {
-        position: absolute;
-
-        right: -12px;
-        top: 50%;
-
-        transform: translateY(-50%);
-
-        width: 32px;
-        height: 32px;
-
-        background: #333;
-        border-radius: 50%;
-
-        border: 4px solid #111;
-
-        box-shadow: 0 2px 4px rgba(0,0,0,0.4);
-    }
-
-    .needle-head {
-        position: absolute;
-
-        left: -4px;
-        top: 50%;
-
-        transform: translateY(-50%);
-
-        width: 18px;
-        height: 14px;
-
-        background: #111;
-        border-radius: 4px;
-    }
-
-    .needle-head::after {
-        content: "";
-
-        position: absolute;
-
-        left: 3px;
-        bottom: -7px;
-
-        width: 3px;
-        height: 10px;
-
-        background: #777;
-        border-radius: 3px;
-    }
-
-    /*
-       VERY subtle needle vibration
-    */
-
-    .needle-arm.playing {
-        animation: needleVibrate 0.18s infinite alternate;
-    }
-
-    @keyframes needleVibrate {
-        from {
-            margin-top: 0;
-        }
-
-        to {
-            margin-top: 0.3px;
-        }
-    }
-
-    /* =========================
-       CONTROL PANEL
-       ========================= */
-
-    .panel {
-        width: 350px;
-        background: #c69a6b;
-        border: 6px solid #4a2e1d;
-        padding: 20px;
-        border-radius: 12px;
-
-        box-shadow:
-            inset 0 0 0 3px #e0b88b,
-            5px 5px 0 #3b2518;
-    }
-
-    .cover-box {
-        width: 200px;
-        height: 200px;
-
-        margin: 0 auto 15px;
-
-        background: #33251d;
-        border: 6px solid #4a2e1d;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        overflow: hidden;
-    }
-
-    #cover {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: none;
-    }
-
-    .no-cover {
-        font-size: 14px;
-        text-align: center;
-        color: #e0c7a5;
-    }
-
-    #trackName {
-        text-align: center;
-        font-weight: bold;
-        margin: 10px 0;
-        min-height: 20px;
-    }
-
-    #time {
-        text-align: center;
-        margin-bottom: 10px;
-        font-size: 14px;
-    }
-
-    #progress {
-        width: 100%;
-        cursor: pointer;
-    }
-
-    .controls {
-        display: flex;
-        justify-content: center;
-        gap: 8px;
-        margin: 15px 0;
-    }
-
-    button {
-        background: #4a2e1d;
-        color: #f5dfc2;
-
-        border: 3px solid #2d1b11;
-        border-radius: 6px;
-
-        padding: 10px 14px;
-
-        font-family: "Courier New", monospace;
-        font-weight: bold;
-
-        cursor: pointer;
-    }
-
-    button:hover {
-        background: #68432b;
-    }
-
-    button:active {
-        transform: translateY(2px);
-    }
-
-    .file-section {
-        margin-top: 15px;
-        border-top: 3px dashed #4a2e1d;
-        padding-top: 15px;
-    }
-
-    label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 6px;
-    }
-
-    input[type="file"] {
-        width: 100%;
-        margin-bottom: 12px;
-    }
-
-    .rgb-section {
-        margin-top: 15px;
-        border-top: 3px dashed #4a2e1d;
-        padding-top: 15px;
-    }
-
-    .rgb-row {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 10px;
-        align-items: center;
-    }
-
-    .rgb-row label {
-        width: 65px;
-        margin: 0;
-    }
-
-    input[type="number"] {
-        width: 65px;
-        padding: 6px;
-
-        border: 2px solid #4a2e1d;
-        background: #ead0ae;
-
-        font-family: "Courier New", monospace;
-    }
-
-    .hint {
-        font-size: 11px;
-        text-align: center;
-        margin-top: 10px;
-    }
-
-    @media (max-width: 850px) {
-        .main {
-            flex-direction: column;
-        }
-
-        .turntable {
-            width: 400px;
-            height: 400px;
-        }
-    }
-
-    @media (max-width: 500px) {
-        .turntable {
-            width: 320px;
-            height: 320px;
-        }
-
-        .panel {
-            width: 100%;
-        }
-    }
+}
 </style>
 </head>
 
@@ -437,546 +391,734 @@
 
 <div class="player">
 
-    <h1>◉ RETRO VINYL PLAYER ◉</h1>
+    <h1>◉ RETRO SINGLE PLAYER ◉</h1>
+
+    <div class="subtitle">
+        MODEL VP-1978 • DIGITAL EDITION
+    </div>
+
+
+    <!-- MAIN -->
 
     <div class="main">
 
-        <!-- =========================
-             TURNTABLE
-             ========================= -->
+
+        <!-- TURNTABLE -->
 
         <div class="turntable">
 
-            <div class="mat" id="mat"></div>
+            <div
+                class="mat"
+                id="mat"
+            >
 
-            <div class="record" id="record">
-
-                <div class="recordLabel" id="recordLabel">
-                    ♫
+                <div
+                    class="record"
+                    id="record"
+                >
+                    <div id="recordLabel">
+                        <img
+                            id="recordCover"
+                            alt=""
+                        >
+                    </div>
                 </div>
-
-                <img id="recordCover" alt="Record Cover">
-
-                <div class="recordHole"></div>
-
-            </div>
-
-            <!-- NEEDLE -->
-
-            <div class="needle-arm" id="needleArm">
-
-                <div class="needle-head"></div>
-
-                <div class="needle-base"></div>
 
             </div>
 
         </div>
 
 
-        <!-- =========================
-             CONTROL PANEL
-             ========================= -->
+        <!-- PLAYER -->
 
         <div class="panel">
 
-            <div class="cover-box">
-
-                <div class="no-cover" id="noCover">
-                    NO COVER
-                </div>
-
-                <img id="cover" alt="Cover">
-
-            </div>
-
-            <div id="trackName">
-                NO TRACK LOADED
-            </div>
-
-            <div id="time">
-                00:00 / 00:00
-            </div>
-
-            <input
-                type="range"
-                id="progress"
-                min="0"
-                max="100"
-                value="0"
+            <img
+                id="cover"
+                class="cover"
+                alt="Single cover"
             >
 
-            <div class="controls">
+            <div
+                class="track-name"
+                id="trackName"
+            >
+                NO SINGLE LOADED
+            </div>
 
-                <button id="backBtn">
-                    ◀◀
-                </button>
 
-                <button id="playBtn">
+            <div class="time">
+
+                <span id="currentTime">
+                    0:00
+                </span>
+
+                <span id="duration">
+                    0:00
+                </span>
+
+            </div>
+
+
+            <div class="progress">
+
+                <div
+                    class="progress-bar"
+                    id="progressBar"
+                ></div>
+
+            </div>
+
+
+            <div class="buttons">
+
+                <button id="play">
                     ▶ PLAY
                 </button>
 
-                <button id="stopBtn">
+                <button id="stop">
                     ■ STOP
                 </button>
 
-                <button id="forwardBtn">
-                    ▶▶
+                <button id="back">
+                    ↶ -10s
                 </button>
 
-            </div>
+                <button id="forward">
+                    +10s ↷
+                </button>
 
-
-            <div class="file-section">
-
-                <label>
-                    🎵 LOAD TRACK
-                </label>
-
-                <input
-                    type="file"
-                    id="audioFile"
-                    accept="audio/*"
-                >
-
-                <label>
-                    🖼️ LOAD COVER
-                </label>
-
-                <input
-                    type="file"
-                    id="coverFile"
-                    accept="image/*"
-                >
-
-            </div>
-
-
-            <div class="rgb-section">
-
-                <strong>💿 VINYL COLOUR</strong>
-
-                <div class="rgb-row">
-                    <label>R</label>
-                    <input type="number" id="vinylR" min="0" max="255" value="20">
-                </div>
-
-                <div class="rgb-row">
-                    <label>G</label>
-                    <input type="number" id="vinylG" min="0" max="255" value="20">
-                </div>
-
-                <div class="rgb-row">
-                    <label>B</label>
-                    <input type="number" id="vinylB" min="0" max="255" value="20">
-                </div>
-
-
-                <strong>🟤 MAT COLOUR</strong>
-
-                <div class="rgb-row">
-                    <label>R</label>
-                    <input type="number" id="matR" min="0" max="255" value="45">
-                </div>
-
-                <div class="rgb-row">
-                    <label>G</label>
-                    <input type="number" id="matG" min="0" max="255" value="45">
-                </div>
-
-                <div class="rgb-row">
-                    <label>B</label>
-                    <input type="number" id="matB" min="0" max="255" value="45">
-                </div>
-
-            </div>
-
-            <div class="hint">
-                Retro single-track vinyl player
             </div>
 
         </div>
 
     </div>
 
+
+    <!-- FILE LOADING -->
+
+    <div class="files">
+
+        <label>
+
+            🎵 LOAD SINGLE
+
+            <input
+                type="file"
+                id="audioFile"
+                accept="audio/*,.mp3,.wav,.ogg,.m4a,.aac,.flac"
+            >
+
+        </label>
+
+
+        <label>
+
+            🖼 LOAD COVER
+
+            <input
+                type="file"
+                id="coverFile"
+                accept="image/*"
+            >
+
+        </label>
+
+    </div>
+
+
+    <!-- COLOUR CONTROLS -->
+
+    <div class="colour-section">
+
+        <h2>
+            🎨 RECORD COLOUR — RGB
+        </h2>
+
+
+        <div class="colour-row">
+
+            <strong>
+                VINYL
+            </strong>
+
+            <div class="rgb">
+
+                <input
+                    type="number"
+                    id="vinylR"
+                    min="0"
+                    max="255"
+                    value="178"
+                    title="Red"
+                >
+
+                <input
+                    type="number"
+                    id="vinylG"
+                    min="0"
+                    max="255"
+                    value="34"
+                    title="Green"
+                >
+
+                <input
+                    type="number"
+                    id="vinylB"
+                    min="0"
+                    max="255"
+                    value="34"
+                    title="Blue"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="colour-preview"
+            id="vinylPreview"
+        ></div>
+
+
+        <h2>
+            🟫 MAT COLOUR — RGB
+        </h2>
+
+
+        <div class="colour-row">
+
+            <strong>
+                MAT
+            </strong>
+
+            <div class="rgb">
+
+                <input
+                    type="number"
+                    id="matR"
+                    min="0"
+                    max="255"
+                    value="24"
+                    title="Red"
+                >
+
+                <input
+                    type="number"
+                    id="matG"
+                    min="0"
+                    max="255"
+                    value="24"
+                    title="Green"
+                >
+
+                <input
+                    type="number"
+                    id="matB"
+                    min="0"
+                    max="255"
+                    value="24"
+                    title="Blue"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="colour-preview"
+            id="matPreview"
+        ></div>
+
+    </div>
+
+
+    <div class="status">
+        ONE TRACK • ONE COVER • CUSTOM RGB COLOURS
+    </div>
+
 </div>
+
+
+<audio id="audio"></audio>
 
 
 <script>
 
-    /* =========================
-       ELEMENTS
-       ========================= */
+/* AUDIO */
 
-    const audio = new Audio();
+const audio =
+    document.getElementById("audio");
 
-    const record = document.getElementById("record");
-    const needleArm = document.getElementById("needleArm");
+const record =
+    document.getElementById("record");
 
-    const playBtn = document.getElementById("playBtn");
-    const stopBtn = document.getElementById("stopBtn");
-    const backBtn = document.getElementById("backBtn");
-    const forwardBtn = document.getElementById("forwardBtn");
+const mat =
+    document.getElementById("mat");
 
-    const audioFile = document.getElementById("audioFile");
-    const coverFile = document.getElementById("coverFile");
+const play =
+    document.getElementById("play");
 
-    const cover = document.getElementById("cover");
-    const recordCover = document.getElementById("recordCover");
-    const noCover = document.getElementById("noCover");
+const stop =
+    document.getElementById("stop");
 
-    const trackName = document.getElementById("trackName");
-    const time = document.getElementById("time");
-    const progress = document.getElementById("progress");
+const back =
+    document.getElementById("back");
 
-    const mat = document.getElementById("mat");
+const forward =
+    document.getElementById("forward");
 
-    const vinylR = document.getElementById("vinylR");
-    const vinylG = document.getElementById("vinylG");
-    const vinylB = document.getElementById("vinylB");
+const audioFile =
+    document.getElementById("audioFile");
 
-    const matR = document.getElementById("matR");
-    const matG = document.getElementById("matG");
-    const matB = document.getElementById("matB");
+const coverFile =
+    document.getElementById("coverFile");
+
+const cover =
+    document.getElementById("cover");
+
+const trackName =
+    document.getElementById("trackName");
+
+const currentTime =
+    document.getElementById("currentTime");
+
+const duration =
+    document.getElementById("duration");
+
+const progressBar =
+    document.getElementById("progressBar");
 
 
-    /* =========================
-       AUDIO FILE
-       ========================= */
+let audioURL = null;
 
-    audioFile.addEventListener("change", function () {
+let coverURL = null;
 
-        const file = this.files[0];
+
+/* TIME FORMAT */
+
+function formatTime(seconds) {
+
+    if (!Number.isFinite(seconds)) {
+        return "0:00";
+    }
+
+    seconds = Math.max(0, seconds);
+
+    const minutes =
+        Math.floor(seconds / 60);
+
+    const secondsPart =
+        Math.floor(seconds % 60)
+        .toString()
+        .padStart(2, "0");
+
+    return `${minutes}:${secondsPart}`;
+}
+
+
+/* LOAD MUSIC */
+
+audioFile.addEventListener(
+    "change",
+    function () {
+
+        const file =
+            this.files[0];
 
         if (!file) return;
 
-        audio.src = URL.createObjectURL(file);
 
-        trackName.textContent = file.name;
+        if (audioURL) {
+
+            URL.revokeObjectURL(
+                audioURL
+            );
+
+        }
+
+
+        audioURL =
+            URL.createObjectURL(file);
+
+
+        audio.src =
+            audioURL;
+
+
+        trackName.textContent =
+            file.name;
+
 
         audio.load();
 
-        progress.value = 0;
-
-        resetNeedle();
-
-    });
+    }
+);
 
 
-    /* =========================
-       COVER FILE
-       ========================= */
+/* LOAD COVER */
 
-    coverFile.addEventListener("change", function () {
+coverFile.addEventListener(
+    "change",
+    function () {
 
-        const file = this.files[0];
+        const file =
+            this.files[0];
 
         if (!file) return;
 
-        const url = URL.createObjectURL(file);
 
-        cover.src = url;
-        recordCover.src = url;
+        if (coverURL) {
 
-        cover.style.display = "block";
-        recordCover.style.display = "block";
+            URL.revokeObjectURL(
+                coverURL
+            );
 
-        noCover.style.display = "none";
-
-    });
+        }
 
 
-    /* =========================
-       PLAY
-       ========================= */
+        coverURL =
+            URL.createObjectURL(file);
 
-    playBtn.addEventListener("click", function () {
+
+        cover.src =
+            coverURL;
+
+        const recordCover =
+            document.getElementById(
+                "recordCover"
+            );
+
+        recordCover.onload =
+            function () {
+                recordCover.style.display = "block";
+            };
+
+        recordCover.src =
+            coverURL;
+
+    }
+);
+
+
+/* PLAY / PAUSE */
+
+play.addEventListener(
+    "click",
+    async function () {
 
         if (!audio.src) return;
 
-        audio.play();
 
-    });
+        if (audio.paused) {
+
+            try {
+
+                await audio.play();
+
+            } catch (error) {
+
+                trackName.textContent =
+                    "THIS AUDIO FORMAT CANNOT BE PLAYED";
+
+            }
+
+        } else {
+
+            audio.pause();
+
+        }
+
+    }
+);
 
 
-    /* =========================
-       STOP
-       ========================= */
+/* STOP */
 
-    stopBtn.addEventListener("click", function () {
+stop.addEventListener(
+    "click",
+    function () {
 
         audio.pause();
 
         audio.currentTime = 0;
 
-        record.classList.remove("spinning");
-        needleArm.classList.remove("playing");
-
-        resetNeedle();
-
-    });
+    }
+);
 
 
-    /* =========================
-       AUDIO PLAYING
-       ========================= */
+/* BACK 10 SECONDS */
 
-    audio.addEventListener("play", function () {
+back.addEventListener(
+    "click",
+    function () {
 
-        record.classList.add("spinning");
-
-        needleArm.classList.add("playing");
-
-    });
-
-
-    /* =========================
-       PAUSED
-       ========================= */
-
-    audio.addEventListener("pause", function () {
-
-        record.classList.remove("spinning");
-
-        needleArm.classList.remove("playing");
-
-    });
-
-
-    /* =========================
-       ENDED
-       ========================= */
-
-    audio.addEventListener("ended", function () {
-
-        record.classList.remove("spinning");
-
-        needleArm.classList.remove("playing");
-
-        resetNeedle();
-
-    });
-
-
-    /* =========================
-       FORMAT TIME
-       ========================= */
-
-    function formatTime(seconds) {
-
-        if (!Number.isFinite(seconds)) {
-            return "00:00";
-        }
-
-        const minutes = Math.floor(seconds / 60);
-
-        const secs = Math.floor(seconds % 60)
-            .toString()
-            .padStart(2, "0");
-
-        return `${minutes}:${secs}`;
+        audio.currentTime =
+            Math.max(
+                0,
+                audio.currentTime - 10
+            );
 
     }
+);
 
 
-    /* =========================
-       UPDATE TIME
-       ========================= */
+/* FORWARD 10 SECONDS */
 
-    audio.addEventListener("timeupdate", function () {
-
-        const current = audio.currentTime;
-        const duration = audio.duration;
-
-        time.textContent =
-            `${formatTime(current)} / ${formatTime(duration)}`;
-
-        if (Number.isFinite(duration) && duration > 0) {
-
-            progress.value =
-                (current / duration) * 100;
-
-            updateNeedle();
-
-        }
-
-    });
-
-
-    /* =========================
-       PROGRESS BAR
-       ========================= */
-
-    progress.addEventListener("input", function () {
-
-        if (!Number.isFinite(audio.duration)) return;
-
-        audio.currentTime =
-            (progress.value / 100) * audio.duration;
-
-        updateNeedle();
-
-    });
-
-
-    /* =========================
-       BACK
-       ========================= */
-
-    backBtn.addEventListener("click", function () {
-
-        audio.currentTime =
-            Math.max(0, audio.currentTime - 10);
-
-        updateNeedle();
-
-    });
-
-
-    /* =========================
-       FORWARD
-       ========================= */
-
-    forwardBtn.addEventListener("click", function () {
-
-        if (!Number.isFinite(audio.duration)) return;
+forward.addEventListener(
+    "click",
+    function () {
 
         audio.currentTime =
             Math.min(
-                audio.duration,
+                audio.duration || audio.currentTime + 10,
                 audio.currentTime + 10
             );
 
-        updateNeedle();
-
-    });
-
-
-    /* =========================
-       NEEDLE TRACKING
-       ========================= */
-
-    function updateNeedle() {
-
-        if (
-            !Number.isFinite(audio.duration) ||
-            audio.duration <= 0
-        ) {
-            return;
-        }
-
-        const progressAmount =
-            audio.currentTime / audio.duration;
+    }
+);
 
 
-        /*
-           The needle starts pointing
-           down-left toward the outside
-           of the record.
+/* VINYL SPIN */
 
-           As the track plays it gradually
-           rotates further toward the centre.
-        */
+audio.addEventListener(
+    "play",
+    function () {
 
-        const startAngle = 135;
-
-        const endAngle = 155;
-
-        const angle =
-            startAngle +
-            (endAngle - startAngle) * progressAmount;
-
-
-        needleArm.style.setProperty(
-            "--needle-angle",
-            `${angle}deg`
+        record.classList.add(
+            "spinning"
         );
 
-        needleArm.style.transform =
-            `rotate(${angle}deg)`;
-
     }
+);
 
 
-    /* =========================
-       RESET NEEDLE
-       ========================= */
+audio.addEventListener(
+    "pause",
+    function () {
 
-    function resetNeedle() {
-
-        const startAngle = 135;
-
-        needleArm.style.setProperty(
-            "--needle-angle",
-            `${startAngle}deg`
+        record.classList.remove(
+            "spinning"
         );
 
-        needleArm.style.transform =
-            `rotate(${startAngle}deg)`;
+    }
+);
+
+
+audio.addEventListener(
+    "ended",
+    function () {
+
+        record.classList.remove(
+            "spinning"
+        );
 
     }
+);
 
 
-    /* =========================
-       VINYL RGB
-       ========================= */
+/* PROGRESS */
 
-    function updateVinyl() {
+audio.addEventListener(
+    "loadedmetadata",
+    function () {
 
-        const r = Number(vinylR.value);
-        const g = Number(vinylG.value);
-        const b = Number(vinylB.value);
+        duration.textContent =
+            formatTime(
+                audio.duration
+            );
 
-        record.style.background = `
-            repeating-radial-gradient(
-                circle at center,
-                rgb(${r}, ${g}, ${b}) 0px,
-                rgb(${r}, ${g}, ${b}) 3px,
-                rgb(
-                    ${Math.max(0, r - 15)},
-                    ${Math.max(0, g - 15)},
-                    ${Math.max(0, b - 15)}
-                ) 4px,
-                rgb(${r}, ${g}, ${b}) 6px
-            )
+    }
+);
+
+
+audio.addEventListener(
+    "timeupdate",
+    function () {
+
+        currentTime.textContent =
+            formatTime(
+                audio.currentTime
+            );
+
+
+        const percentage =
+            audio.duration
+            ? (
+                audio.currentTime /
+                audio.duration
+            ) * 100
+            : 0;
+
+
+        progressBar.style.width =
+            percentage + "%";
+
+    }
+);
+
+
+/* RGB */
+
+function clamp(value) {
+
+    value = Number(value);
+
+    if (!Number.isFinite(value)) {
+        return 0;
+    }
+
+    return Math.max(
+        0,
+        Math.min(255, value)
+    );
+
+}
+
+
+/* VINYL RGB */
+
+function updateVinyl() {
+
+    const r =
+        clamp(
+            document.getElementById(
+                "vinylR"
+            ).value
+        );
+
+    const g =
+        clamp(
+            document.getElementById(
+                "vinylG"
+            ).value
+        );
+
+    const b =
+        clamp(
+            document.getElementById(
+                "vinylB"
+            ).value
+        );
+
+
+    const colour =
+        `rgb(${r}, ${g}, ${b})`;
+
+
+    const darkerColour =
+        `rgb(
+            ${Math.max(0, r - 38)},
+            ${Math.max(0, g - 38)},
+            ${Math.max(0, b - 38)}
+        )`;
+
+
+    record.style.background =
+        `
+        repeating-radial-gradient(
+            circle,
+            ${colour} 0px,
+            ${colour} 2px,
+            ${darkerColour} 3px,
+            ${darkerColour} 4px
+        )
         `;
 
-    }
+
+    document.getElementById(
+        "vinylPreview"
+    ).style.background =
+        colour;
+
+}
 
 
-    vinylR.addEventListener("input", updateVinyl);
-    vinylG.addEventListener("input", updateVinyl);
-    vinylB.addEventListener("input", updateVinyl);
+/* MAT RGB */
+
+function updateMat() {
+
+    const r =
+        clamp(
+            document.getElementById(
+                "matR"
+            ).value
+        );
+
+    const g =
+        clamp(
+            document.getElementById(
+                "matG"
+            ).value
+        );
+
+    const b =
+        clamp(
+            document.getElementById(
+                "matB"
+            ).value
+        );
 
 
-    /* =========================
-       MAT RGB
-       ========================= */
-
-    function updateMat() {
-
-        const r = Number(matR.value);
-        const g = Number(matG.value);
-        const b = Number(matB.value);
-
-        mat.style.background =
-            `rgb(${r}, ${g}, ${b})`;
-
-    }
+    const colour =
+        `rgb(${r}, ${g}, ${b})`;
 
 
-    matR.addEventListener("input", updateMat);
-    matG.addEventListener("input", updateMat);
-    matB.addEventListener("input", updateMat);
+    mat.style.background =
+        colour;
 
 
-    /* =========================
-       INITIAL SETUP
-       ========================= */
+    document.getElementById(
+        "matPreview"
+    ).style.background =
+        colour;
 
-    updateVinyl();
-    updateMat();
-    resetNeedle();
+}
+
+
+/* VINYL INPUTS */
+
+[
+    "vinylR",
+    "vinylG",
+    "vinylB"
+].forEach(function (id) {
+
+    document
+        .getElementById(id)
+        .addEventListener(
+            "input",
+            updateVinyl
+        );
+
+});
+
+
+/* MAT INPUTS */
+
+[
+    "matR",
+    "matG",
+    "matB"
+].forEach(function (id) {
+
+    document
+        .getElementById(id)
+        .addEventListener(
+            "input",
+            updateMat
+        );
+
+});
+
+
+/* INITIALISE */
+
+updateVinyl();
+
+updateMat();
 
 </script>
 
