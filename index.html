@@ -4,1391 +4,842 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Retro Vinyl Player</title>
+<title>◉ RETRO VINYL PLAYER ◉</title>
 
 <style>
-
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    min-height: 100vh;
-
-    background: #30261d;
-
-    font-family: Georgia, serif;
-    color: #241b14;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    padding: 25px;
-}
-
-
-/* PLAYER */
-
-.player {
-    width: min(900px, 100%);
-
-    background: #d6c19b;
-
-    border: 10px solid #4a3322;
-    border-radius: 22px;
-
-    padding: 22px;
-
-    box-shadow:
-        inset 0 0 0 4px #92724e,
-        0 15px 35px #0008;
-}
-
-
-/* TITLE */
-
-h1 {
-    text-align: center;
-
-    margin: 0;
-
-    letter-spacing: 4px;
-
-    font-size: 28px;
-}
-
-
-.subtitle {
-    text-align: center;
-
-    font-family: monospace;
-
-    margin-top: 5px;
-
-    opacity: 0.7;
-}
-
-
-/* MAIN */
-
-.main {
-    display: grid;
-
-    grid-template-columns: 1fr 320px;
-
-    gap: 30px;
-
-    align-items: center;
-
-    margin-top: 25px;
-}
-
-
-/* TURNTABLE */
-
-.turntable {
-    width: min(430px, 80vw);
-
-    aspect-ratio: 1;
-
-    margin: auto;
-
-    background: #30251d;
-
-    border-radius: 50%;
-
-    padding: 5%;
-
-    box-shadow:
-        inset 0 0 0 6px #5d4937,
-        0 10px 20px #0007;
-
-    position: relative;
-}
-
-
-/* MAT */
-
-.mat {
-    width: 100%;
-    height: 100%;
-
-    border-radius: 50%;
-
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
-    background: rgb(24, 24, 24);
-}
-
-
-/* VINYL */
-
-.record {
-    width: 88%;
-    height: 88%;
-
-    border-radius: 50%;
-
-    position: relative;
-
-    background:
-        repeating-radial-gradient(
-            circle,
-
-            rgb(178, 34, 34) 0px,
-            rgb(178, 34, 34) 2px,
-
-            rgb(140, 25, 25) 3px,
-            rgb(140, 25, 25) 4px
-        );
-
-    box-shadow:
-        0 8px 15px #0009;
-}
-
-
-/* CENTRE LABEL */
-
-#recordLabel {
-
-    position: absolute;
-
-    width: 28%;
-
-    aspect-ratio: 1;
-
-    left: 50%;
-    top: 50%;
-
-    transform:
-        translate(-50%, -50%);
-
-    border-radius: 50%;
-
-    background: rgb(165, 45, 32);
-
-    border: 5px solid #d9b76a;
-
-    overflow: hidden;
-
-    z-index: 3;
-}
-
-
-/* COVER ON VINYL */
-
-#recordCover {
-
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-
-    display: none;
-}
-
-
-/* CENTRE HOLE */
-
-#recordLabel::after {
-
-    content: "";
-
-    position: absolute;
-
-    width: 8%;
-    height: 8%;
-
-    left: 50%;
-    top: 50%;
-
-    transform:
-        translate(-50%, -50%);
-
-    border-radius: 50%;
-
-    background: #241b14;
-
-    border: 2px solid #ead39a;
-
-    z-index: 5;
-}
-
-
-/* VINYL SPIN */
-
-.spinning {
-
-    animation:
-        spin 2.2s linear infinite;
-}
-
-
-@keyframes spin {
-
-    from {
-        transform: rotate(0deg);
+    * {
+        box-sizing: border-box;
     }
 
-    to {
-        transform: rotate(360deg);
+    body {
+        margin: 0;
+        min-height: 100vh;
+        background: #d8c3a5;
+        font-family: "Courier New", monospace;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #2b2118;
     }
 
-}
-
-
-/* ================================================= */
-/* NEEDLE */
-/* ================================================= */
-
-.needle-arm {
-
-    position: absolute;
-
-    width: 30%;
-    height: 11px;
-
-    /*
-        Pivot is on the right side
-        of the turntable.
-    */
-
-    left: 63%;
-    top: 37%;
-
-    background: #d1b889;
-
-    border: 3px solid #493321;
-
-    border-radius: 10px;
-
-    /*
-        The arm rotates around
-        its RIGHT end.
-    */
-
-    transform-origin: 100% 50%;
-
-    /*
-        Current angle.
-        JavaScript changes this
-        as the song progresses.
-    */
-
-    --needle-angle: 35deg;
-
-    transform:
-        rotate(var(--needle-angle));
-
-    z-index: 10;
-
-    transition:
-        transform 0.25s ease;
-}
-
-
-/* NEEDLE HEAD */
-
-.needle-head {
-
-    position: absolute;
-
-    right: 0;
-    top: 50%;
-
-    width: 21px;
-    height: 15px;
-
-    transform:
-        translateY(-50%);
-
-    background: #493321;
-
-    border-radius: 4px;
-
-    box-shadow:
-        2px 2px 4px #0007;
-}
-
-
-/* NEEDLE TIP */
-
-.needle-head::after {
-
-    content: "";
-
-    position: absolute;
-
-    right: 3px;
-    bottom: -5px;
-
-    width: 3px;
-    height: 7px;
-
-    background: #241b14;
-
-    transform:
-        rotate(10deg);
-}
-
-
-/* NEEDLE BASE */
-
-.needle-base {
-
-    position: absolute;
-
-    left: 0;
-    top: 50%;
-
-    width: 25px;
-    height: 25px;
-
-    transform:
-        translateY(-50%);
-
-    border-radius: 50%;
-
-    background: #76583a;
-
-    border: 4px solid #493321;
-
-    box-shadow:
-        2px 2px 5px #0007;
-}
-
-
-/* NEEDLE VIBRATION */
-
-.needle-arm.playing {
-
-    animation:
-        needleVibrate
-        0.18s
-        ease-in-out
-        infinite
-        alternate;
-}
-
-
-/* VERY SMALL MOVEMENT */
-
-@keyframes needleVibrate {
-
-    from {
-        margin-top: -0.25px;
+    .player {
+        width: 950px;
+        max-width: 95vw;
+        background: #8b5e3c;
+        border: 8px solid #4a2e1d;
+        border-radius: 18px;
+        padding: 25px;
+        box-shadow:
+            10px 10px 0 #3b2518,
+            inset 0 0 0 4px #b98255;
     }
 
-    to {
-        margin-top: 0.25px;
+    h1 {
+        text-align: center;
+        margin: 0 0 20px;
+        font-size: 28px;
+        letter-spacing: 3px;
     }
-
-}
-
-
-/* ================================================= */
-/* PLAYER PANEL */
-/* ================================================= */
-
-.panel {
-
-    background: #b99d6d;
-
-    border: 5px inset #76583a;
-
-    padding: 18px;
-
-    font-family: monospace;
-}
-
-
-/* COVER */
-
-.cover {
-
-    display: block;
-
-    width: 150px;
-    height: 150px;
-
-    object-fit: cover;
-
-    margin: auto;
-
-    background: #8f795b;
-
-    border: 5px solid #493321;
-}
-
-
-/* TRACK NAME */
-
-.track-name {
-
-    text-align: center;
-
-    font-size: 18px;
-
-    font-weight: bold;
-
-    margin: 12px 0;
-
-    word-break: break-word;
-}
-
-
-/* TIME */
-
-.time {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    font-size: 12px;
-}
-
-
-/* PROGRESS */
-
-.progress {
-
-    height: 15px;
-
-    background: #32261d;
-
-    border: 2px solid #5d422c;
-
-    margin: 12px 0;
-}
-
-
-.progress-bar {
-
-    height: 100%;
-
-    width: 0%;
-
-    background: #d8b45f;
-}
-
-
-/* BUTTONS */
-
-.buttons {
-
-    display: flex;
-
-    flex-wrap: wrap;
-
-    justify-content: center;
-
-    gap: 8px;
-}
-
-
-button,
-label {
-
-    border: 3px outset #d8c09a;
-
-    background: #cdb487;
-
-    padding: 10px 13px;
-
-    font-family: monospace;
-
-    font-weight: bold;
-
-    cursor: pointer;
-}
-
-
-button:active,
-label:active {
-
-    border-style: inset;
-}
-
-
-/* FILE INPUT */
-
-input[type="file"] {
-
-    display: none;
-}
-
-
-/* FILE BUTTONS */
-
-.files {
-
-    display: flex;
-
-    justify-content: center;
-
-    flex-wrap: wrap;
-
-    gap: 10px;
-
-    margin-top: 20px;
-}
-
-
-/* ================================================= */
-/* RGB SECTION */
-/* ================================================= */
-
-.colour-section {
-
-    margin-top: 20px;
-
-    background: #a98e60;
-
-    border: 3px inset #76583a;
-
-    padding: 15px;
-
-    font-family: monospace;
-}
-
-
-.colour-section h2 {
-
-    font-size: 16px;
-
-    margin-top: 0;
-}
-
-
-.colour-row {
-
-    display: grid;
-
-    grid-template-columns: 100px 1fr;
-
-    gap: 10px;
-
-    align-items: center;
-
-    margin: 10px 0;
-}
-
-
-.rgb {
-
-    display: flex;
-
-    gap: 6px;
-}
-
-
-.rgb input {
-
-    width: 65px;
-
-    padding: 7px;
-
-    border: 2px inset #76583a;
-
-    background: #eee1c4;
-
-    font-family: monospace;
-}
-
-
-/* PREVIEWS */
-
-.colour-preview {
-
-    height: 35px;
-
-    margin-top: 12px;
-
-    border: 3px inset #76583a;
-}
-
-
-/* STATUS */
-
-.status {
-
-    text-align: center;
-
-    font-family: monospace;
-
-    font-size: 11px;
-
-    margin-top: 12px;
-
-    opacity: 0.75;
-}
-
-
-/* MOBILE */
-
-@media (max-width: 700px) {
 
     .main {
-
-        grid-template-columns: 1fr;
+        display: flex;
+        gap: 30px;
+        align-items: center;
+        justify-content: center;
     }
+
+    /* =========================
+       TURNTABLE
+       ========================= */
 
     .turntable {
-
-        width: min(400px, 85vw);
+        position: relative;
+        width: 460px;
+        height: 460px;
+        background: #654329;
+        border: 10px solid #3b2518;
+        border-radius: 50%;
+        box-shadow:
+            inset 0 0 0 8px #986844,
+            8px 8px 0 #3b2518;
+        flex-shrink: 0;
     }
 
-}
+    .mat {
+        position: absolute;
+        width: 94%;
+        height: 94%;
+        left: 3%;
+        top: 3%;
+        border-radius: 50%;
+        background: rgb(45, 45, 45);
+        transition: background 0.2s;
+    }
 
+    .record {
+        position: absolute;
+        width: 88%;
+        height: 88%;
+        left: 6%;
+        top: 6%;
+        border-radius: 50%;
+
+        background:
+            repeating-radial-gradient(
+                circle at center,
+                rgb(20, 20, 20) 0px,
+                rgb(20, 20, 20) 3px,
+                rgb(5, 5, 5) 4px,
+                rgb(20, 20, 20) 6px
+            );
+
+        box-shadow:
+            inset 0 0 0 4px #111,
+            0 0 8px #111;
+
+        transform-origin: center;
+    }
+
+    .record.spinning {
+        animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* =========================
+       RECORD COVER
+       ========================= */
+
+    #recordCover {
+        position: absolute;
+        width: 30%;
+        height: 30%;
+        left: 35%;
+        top: 35%;
+
+        border-radius: 50%;
+        object-fit: cover;
+
+        display: none;
+
+        border: 5px solid #222;
+        box-shadow: 0 0 0 3px #555;
+
+        z-index: 4;
+    }
+
+    .recordLabel {
+        position: absolute;
+        width: 30%;
+        height: 30%;
+        left: 35%;
+        top: 35%;
+
+        border-radius: 50%;
+        background: #c9a227;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        font-size: 35px;
+        color: #222;
+
+        border: 5px solid #333;
+
+        z-index: 3;
+    }
+
+    .recordHole {
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        left: calc(50% - 8px);
+        top: calc(50% - 8px);
+
+        background: #222;
+        border-radius: 50%;
+        z-index: 5;
+    }
+
+    /* =========================
+       NEEDLE
+       ========================= */
+
+    .needle-arm {
+        position: absolute;
+
+        width: 32%;
+        height: 10px;
+
+        right: 8%;
+        top: 18%;
+
+        background: #222;
+        border-radius: 10px;
+
+        /*
+           Pivot is on the RIGHT.
+           The arm extends down-left.
+        */
+        transform-origin: 100% 50%;
+        transform: rotate(135deg);
+
+        z-index: 10;
+
+        box-shadow: 0 2px 2px rgba(0,0,0,0.35);
+    }
+
+    .needle-base {
+        position: absolute;
+
+        right: -12px;
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        width: 32px;
+        height: 32px;
+
+        background: #333;
+        border-radius: 50%;
+
+        border: 4px solid #111;
+
+        box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    }
+
+    .needle-head {
+        position: absolute;
+
+        left: -4px;
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        width: 18px;
+        height: 14px;
+
+        background: #111;
+        border-radius: 4px;
+    }
+
+    .needle-head::after {
+        content: "";
+
+        position: absolute;
+
+        left: 3px;
+        bottom: -7px;
+
+        width: 3px;
+        height: 10px;
+
+        background: #777;
+        border-radius: 3px;
+    }
+
+    /*
+       VERY subtle needle vibration
+    */
+
+    .needle-arm.playing {
+        animation: needleVibrate 0.18s infinite alternate;
+    }
+
+    @keyframes needleVibrate {
+        from {
+            margin-top: 0;
+        }
+
+        to {
+            margin-top: 0.3px;
+        }
+    }
+
+    /* =========================
+       CONTROL PANEL
+       ========================= */
+
+    .panel {
+        width: 350px;
+        background: #c69a6b;
+        border: 6px solid #4a2e1d;
+        padding: 20px;
+        border-radius: 12px;
+
+        box-shadow:
+            inset 0 0 0 3px #e0b88b,
+            5px 5px 0 #3b2518;
+    }
+
+    .cover-box {
+        width: 200px;
+        height: 200px;
+
+        margin: 0 auto 15px;
+
+        background: #33251d;
+        border: 6px solid #4a2e1d;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        overflow: hidden;
+    }
+
+    #cover {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: none;
+    }
+
+    .no-cover {
+        font-size: 14px;
+        text-align: center;
+        color: #e0c7a5;
+    }
+
+    #trackName {
+        text-align: center;
+        font-weight: bold;
+        margin: 10px 0;
+        min-height: 20px;
+    }
+
+    #time {
+        text-align: center;
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+
+    #progress {
+        width: 100%;
+        cursor: pointer;
+    }
+
+    .controls {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin: 15px 0;
+    }
+
+    button {
+        background: #4a2e1d;
+        color: #f5dfc2;
+
+        border: 3px solid #2d1b11;
+        border-radius: 6px;
+
+        padding: 10px 14px;
+
+        font-family: "Courier New", monospace;
+        font-weight: bold;
+
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #68432b;
+    }
+
+    button:active {
+        transform: translateY(2px);
+    }
+
+    .file-section {
+        margin-top: 15px;
+        border-top: 3px dashed #4a2e1d;
+        padding-top: 15px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 6px;
+    }
+
+    input[type="file"] {
+        width: 100%;
+        margin-bottom: 12px;
+    }
+
+    .rgb-section {
+        margin-top: 15px;
+        border-top: 3px dashed #4a2e1d;
+        padding-top: 15px;
+    }
+
+    .rgb-row {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 10px;
+        align-items: center;
+    }
+
+    .rgb-row label {
+        width: 65px;
+        margin: 0;
+    }
+
+    input[type="number"] {
+        width: 65px;
+        padding: 6px;
+
+        border: 2px solid #4a2e1d;
+        background: #ead0ae;
+
+        font-family: "Courier New", monospace;
+    }
+
+    .hint {
+        font-size: 11px;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    @media (max-width: 850px) {
+        .main {
+            flex-direction: column;
+        }
+
+        .turntable {
+            width: 400px;
+            height: 400px;
+        }
+    }
+
+    @media (max-width: 500px) {
+        .turntable {
+            width: 320px;
+            height: 320px;
+        }
+
+        .panel {
+            width: 100%;
+        }
+    }
 </style>
 </head>
 
-
 <body>
-
 
 <div class="player">
 
-
-    <h1>
-        ◉ RETRO VINYL PLAYER ◉
-    </h1>
-
-
-    <div class="subtitle">
-
-        MODEL VP-1978 • DIGITAL EDITION
-
-    </div>
-
-
-    <!-- MAIN -->
+    <h1>◉ RETRO VINYL PLAYER ◉</h1>
 
     <div class="main">
 
-
-        <!-- TURNTABLE -->
+        <!-- =========================
+             TURNTABLE
+             ========================= -->
 
         <div class="turntable">
 
+            <div class="mat" id="mat"></div>
 
-            <div
-                class="mat"
-                id="mat"
-            >
+            <div class="record" id="record">
 
-
-                <div
-                    class="record"
-                    id="record"
-                >
-
-
-                    <div
-                        id="recordLabel"
-                    >
-
-
-                        <img
-                            id="recordCover"
-                            alt=""
-                        >
-
-
-                    </div>
-
-
+                <div class="recordLabel" id="recordLabel">
+                    ♫
                 </div>
 
+                <img id="recordCover" alt="Record Cover">
+
+                <div class="recordHole"></div>
 
             </div>
-
 
             <!-- NEEDLE -->
 
-            <div
-                class="needle-arm"
-                id="needleArm"
-            >
+            <div class="needle-arm" id="needleArm">
 
+                <div class="needle-head"></div>
 
-                <div
-                    class="needle-head"
-                ></div>
-
-
-                <div
-                    class="needle-base"
-                ></div>
-
+                <div class="needle-base"></div>
 
             </div>
-
 
         </div>
 
 
-        <!-- PLAYER -->
+        <!-- =========================
+             CONTROL PANEL
+             ========================= -->
 
         <div class="panel">
 
+            <div class="cover-box">
 
-            <img
-                id="cover"
-                class="cover"
-                alt="Cover"
-            >
+                <div class="no-cover" id="noCover">
+                    NO COVER
+                </div>
 
+                <img id="cover" alt="Cover">
 
-            <div
-                class="track-name"
-                id="trackName"
-            >
+            </div>
 
+            <div id="trackName">
                 NO TRACK LOADED
-
             </div>
 
-
-            <div class="time">
-
-
-                <span
-                    id="currentTime"
-                >
-
-                    0:00
-
-                </span>
-
-
-                <span
-                    id="duration"
-                >
-
-                    0:00
-
-                </span>
-
-
+            <div id="time">
+                00:00 / 00:00
             </div>
 
+            <input
+                type="range"
+                id="progress"
+                min="0"
+                max="100"
+                value="0"
+            >
 
-            <div class="progress">
+            <div class="controls">
 
+                <button id="backBtn">
+                    ◀◀
+                </button>
 
-                <div
-                    class="progress-bar"
-                    id="progressBar"
-                ></div>
-
-
-            </div>
-
-
-            <div class="buttons">
-
-
-                <button id="play">
-
+                <button id="playBtn">
                     ▶ PLAY
-
                 </button>
 
-
-                <button id="stop">
-
+                <button id="stopBtn">
                     ■ STOP
-
                 </button>
 
-
-                <button id="back">
-
-                    ↶ -10s
-
+                <button id="forwardBtn">
+                    ▶▶
                 </button>
-
-
-                <button id="forward">
-
-                    +10s ↷
-
-                </button>
-
 
             </div>
 
 
-        </div>
+            <div class="file-section">
 
-
-    </div>
-
-
-    <!-- FILE LOADING -->
-
-    <div class="files">
-
-
-        <label>
-
-            🎵 LOAD TRACK
-
-            <input
-                type="file"
-                id="audioFile"
-                accept="audio/*,.mp3,.wav,.ogg,.m4a,.aac,.flac"
-            >
-
-        </label>
-
-
-        <label>
-
-            🖼 LOAD COVER
-
-            <input
-                type="file"
-                id="coverFile"
-                accept="image/*"
-            >
-
-        </label>
-
-
-    </div>
-
-
-    <!-- RGB CONTROLS -->
-
-    <div class="colour-section">
-
-
-        <h2>
-
-            🎨 RECORD COLOUR — RGB
-
-        </h2>
-
-
-        <div class="colour-row">
-
-
-            <strong>
-                VINYL
-            </strong>
-
-
-            <div class="rgb">
-
+                <label>
+                    🎵 LOAD TRACK
+                </label>
 
                 <input
-                    type="number"
-                    id="vinylR"
-                    min="0"
-                    max="255"
-                    value="178"
+                    type="file"
+                    id="audioFile"
+                    accept="audio/*"
                 >
 
+                <label>
+                    🖼️ LOAD COVER
+                </label>
 
                 <input
-                    type="number"
-                    id="vinylG"
-                    min="0"
-                    max="255"
-                    value="34"
+                    type="file"
+                    id="coverFile"
+                    accept="image/*"
                 >
-
-
-                <input
-                    type="number"
-                    id="vinylB"
-                    min="0"
-                    max="255"
-                    value="34"
-                >
-
 
             </div>
 
 
-        </div>
+            <div class="rgb-section">
+
+                <strong>💿 VINYL COLOUR</strong>
+
+                <div class="rgb-row">
+                    <label>R</label>
+                    <input type="number" id="vinylR" min="0" max="255" value="20">
+                </div>
+
+                <div class="rgb-row">
+                    <label>G</label>
+                    <input type="number" id="vinylG" min="0" max="255" value="20">
+                </div>
+
+                <div class="rgb-row">
+                    <label>B</label>
+                    <input type="number" id="vinylB" min="0" max="255" value="20">
+                </div>
 
 
-        <div
-            class="colour-preview"
-            id="vinylPreview"
-        ></div>
+                <strong>🟤 MAT COLOUR</strong>
 
+                <div class="rgb-row">
+                    <label>R</label>
+                    <input type="number" id="matR" min="0" max="255" value="45">
+                </div>
 
-        <h2>
+                <div class="rgb-row">
+                    <label>G</label>
+                    <input type="number" id="matG" min="0" max="255" value="45">
+                </div>
 
-            🟫 MAT COLOUR — RGB
-
-        </h2>
-
-
-        <div class="colour-row">
-
-
-            <strong>
-                MAT
-            </strong>
-
-
-            <div class="rgb">
-
-
-                <input
-                    type="number"
-                    id="matR"
-                    min="0"
-                    max="255"
-                    value="24"
-                >
-
-
-                <input
-                    type="number"
-                    id="matG"
-                    min="0"
-                    max="255"
-                    value="24"
-                >
-
-
-                <input
-                    type="number"
-                    id="matB"
-                    min="0"
-                    max="255"
-                    value="24"
-                >
-
+                <div class="rgb-row">
+                    <label>B</label>
+                    <input type="number" id="matB" min="0" max="255" value="45">
+                </div>
 
             </div>
 
+            <div class="hint">
+                Retro single-track vinyl player
+            </div>
 
         </div>
 
-
-        <div
-            class="colour-preview"
-            id="matPreview"
-        ></div>
-
-
     </div>
-
-
-    <div class="status">
-
-        ONE TRACK • ONE COVER • CUSTOM RGB COLOURS
-
-    </div>
-
 
 </div>
 
 
-<audio id="audio"></audio>
-
-
 <script>
 
+    /* =========================
+       ELEMENTS
+       ========================= */
 
-/* ================================================= */
-/* ELEMENTS */
-/* ================================================= */
+    const audio = new Audio();
 
-const audio =
-    document.getElementById("audio");
+    const record = document.getElementById("record");
+    const needleArm = document.getElementById("needleArm");
 
-const record =
-    document.getElementById("record");
+    const playBtn = document.getElementById("playBtn");
+    const stopBtn = document.getElementById("stopBtn");
+    const backBtn = document.getElementById("backBtn");
+    const forwardBtn = document.getElementById("forwardBtn");
 
-const mat =
-    document.getElementById("mat");
+    const audioFile = document.getElementById("audioFile");
+    const coverFile = document.getElementById("coverFile");
 
-const needleArm =
-    document.getElementById("needleArm");
+    const cover = document.getElementById("cover");
+    const recordCover = document.getElementById("recordCover");
+    const noCover = document.getElementById("noCover");
 
-const play =
-    document.getElementById("play");
+    const trackName = document.getElementById("trackName");
+    const time = document.getElementById("time");
+    const progress = document.getElementById("progress");
 
-const stop =
-    document.getElementById("stop");
+    const mat = document.getElementById("mat");
 
-const back =
-    document.getElementById("back");
+    const vinylR = document.getElementById("vinylR");
+    const vinylG = document.getElementById("vinylG");
+    const vinylB = document.getElementById("vinylB");
 
-const forward =
-    document.getElementById("forward");
+    const matR = document.getElementById("matR");
+    const matG = document.getElementById("matG");
+    const matB = document.getElementById("matB");
 
-const audioFile =
-    document.getElementById("audioFile");
 
-const coverFile =
-    document.getElementById("coverFile");
+    /* =========================
+       AUDIO FILE
+       ========================= */
 
-const cover =
-    document.getElementById("cover");
+    audioFile.addEventListener("change", function () {
 
-const recordCover =
-    document.getElementById("recordCover");
+        const file = this.files[0];
 
-const trackName =
-    document.getElementById("trackName");
+        if (!file) return;
 
-const currentTime =
-    document.getElementById("currentTime");
+        audio.src = URL.createObjectURL(file);
 
-const duration =
-    document.getElementById("duration");
-
-const progressBar =
-    document.getElementById("progressBar");
-
-
-let audioURL = null;
-
-let coverURL = null;
-
-
-/* ================================================= */
-/* TIME */
-/* ================================================= */
-
-function formatTime(seconds) {
-
-    if (!Number.isFinite(seconds)) {
-
-        return "0:00";
-
-    }
-
-
-    seconds =
-        Math.max(0, seconds);
-
-
-    const minutes =
-        Math.floor(
-            seconds / 60
-        );
-
-
-    const secondsPart =
-        Math.floor(
-            seconds % 60
-        )
-        .toString()
-        .padStart(2, "0");
-
-
-    return `${minutes}:${secondsPart}`;
-
-}
-
-
-/* ================================================= */
-/* NEEDLE TRACKING */
-/* ================================================= */
-
-function updateNeedle() {
-
-    if (
-        !Number.isFinite(audio.duration) ||
-        audio.duration <= 0
-    ) {
-
-        return;
-
-    }
-
-
-    /*
-        Calculate playback progress.
-
-        0 = beginning
-        1 = end
-    */
-
-    const progress =
-        audio.currentTime /
-        audio.duration;
-
-
-    /*
-        Needle movement.
-
-        35° = outside of record
-
-        70° = further toward centre
-    */
-
-    const startAngle = 35;
-
-    const endAngle = 70;
-
-
-    const angle =
-        startAngle +
-        (
-            endAngle -
-            startAngle
-        ) *
-        progress;
-
-
-    needleArm.style.setProperty(
-        "--needle-angle",
-        `${angle}deg`
-    );
-
-}
-
-
-/* ================================================= */
-/* LOAD AUDIO */
-/* ================================================= */
-
-audioFile.addEventListener(
-    "change",
-    function () {
-
-        const file =
-            this.files[0];
-
-
-        if (!file) {
-
-            return;
-
-        }
-
-
-        if (audioURL) {
-
-            URL.revokeObjectURL(
-                audioURL
-            );
-
-        }
-
-
-        audioURL =
-            URL.createObjectURL(
-                file
-            );
-
-
-        audio.src =
-            audioURL;
-
-
-        trackName.textContent =
-            file.name;
-
+        trackName.textContent = file.name;
 
         audio.load();
 
+        progress.value = 0;
 
-        /*
-            Reset needle for
-            newly loaded track.
-        */
+        resetNeedle();
 
-        needleArm.style.setProperty(
-            "--needle-angle",
-            "35deg"
-        );
-
-    }
-);
+    });
 
 
-/* ================================================= */
-/* LOAD COVER */
-/* ================================================= */
+    /* =========================
+       COVER FILE
+       ========================= */
 
-coverFile.addEventListener(
-    "change",
-    function () {
+    coverFile.addEventListener("change", function () {
 
-        const file =
-            this.files[0];
+        const file = this.files[0];
 
+        if (!file) return;
 
-        if (!file) {
+        const url = URL.createObjectURL(file);
 
-            return;
+        cover.src = url;
+        recordCover.src = url;
 
-        }
+        cover.style.display = "block";
+        recordCover.style.display = "block";
 
+        noCover.style.display = "none";
 
-        if (coverURL) {
-
-            URL.revokeObjectURL(
-                coverURL
-            );
-
-        }
+    });
 
 
-        coverURL =
-            URL.createObjectURL(
-                file
-            );
+    /* =========================
+       PLAY
+       ========================= */
+
+    playBtn.addEventListener("click", function () {
+
+        if (!audio.src) return;
+
+        audio.play();
+
+    });
 
 
-        /* PANEL COVER */
+    /* =========================
+       STOP
+       ========================= */
 
-        cover.src =
-            coverURL;
-
-
-        /* RECORD COVER */
-
-        recordCover.src =
-            coverURL;
-
-
-        recordCover.style.display =
-            "block";
-
-    }
-);
-
-
-/* ================================================= */
-/* PLAY / PAUSE */
-/* ================================================= */
-
-play.addEventListener(
-    "click",
-    async function () {
-
-        if (!audio.src) {
-
-            return;
-
-        }
-
-
-        if (audio.paused) {
-
-            try {
-
-                await audio.play();
-
-            }
-
-            catch (error) {
-
-                trackName.textContent =
-                    "THIS AUDIO FORMAT CANNOT BE PLAYED";
-
-            }
-
-        }
-
-        else {
-
-            audio.pause();
-
-        }
-
-    }
-);
-
-
-/* ================================================= */
-/* STOP */
-/* ================================================= */
-
-stop.addEventListener(
-    "click",
-    function () {
+    stopBtn.addEventListener("click", function () {
 
         audio.pause();
 
         audio.currentTime = 0;
 
+        record.classList.remove("spinning");
+        needleArm.classList.remove("playing");
 
-        record.classList.remove(
-            "spinning"
-        );
+        resetNeedle();
 
-
-        needleArm.classList.remove(
-            "playing"
-        );
+    });
 
 
-        needleArm.style.setProperty(
-            "--needle-angle",
-            "35deg"
-        );
+    /* =========================
+       AUDIO PLAYING
+       ========================= */
+
+    audio.addEventListener("play", function () {
+
+        record.classList.add("spinning");
+
+        needleArm.classList.add("playing");
+
+    });
 
 
-        currentTime.textContent =
-            "0:00";
+    /* =========================
+       PAUSED
+       ========================= */
+
+    audio.addEventListener("pause", function () {
+
+        record.classList.remove("spinning");
+
+        needleArm.classList.remove("playing");
+
+    });
 
 
-        progressBar.style.width =
-            "0%";
+    /* =========================
+       ENDED
+       ========================= */
+
+    audio.addEventListener("ended", function () {
+
+        record.classList.remove("spinning");
+
+        needleArm.classList.remove("playing");
+
+        resetNeedle();
+
+    });
+
+
+    /* =========================
+       FORMAT TIME
+       ========================= */
+
+    function formatTime(seconds) {
+
+        if (!Number.isFinite(seconds)) {
+            return "00:00";
+        }
+
+        const minutes = Math.floor(seconds / 60);
+
+        const secs = Math.floor(seconds % 60)
+            .toString()
+            .padStart(2, "0");
+
+        return `${minutes}:${secs}`;
 
     }
-);
 
 
-/* ================================================= */
-/* BACK 10 SECONDS */
-/* ================================================= */
+    /* =========================
+       UPDATE TIME
+       ========================= */
 
-back.addEventListener(
-    "click",
-    function () {
+    audio.addEventListener("timeupdate", function () {
 
-        audio.currentTime =
-            Math.max(
-                0,
-                audio.currentTime - 10
-            );
+        const current = audio.currentTime;
+        const duration = audio.duration;
 
+        time.textContent =
+            `${formatTime(current)} / ${formatTime(duration)}`;
 
-        updateNeedle();
+        if (Number.isFinite(duration) && duration > 0) {
 
-    }
-);
+            progress.value =
+                (current / duration) * 100;
 
-
-/* ================================================= */
-/* FORWARD 10 SECONDS */
-/* ================================================= */
-
-forward.addEventListener(
-    "click",
-    function () {
-
-        if (
-            !Number.isFinite(
-                audio.duration
-            )
-        ) {
-
-            return;
+            updateNeedle();
 
         }
 
+    });
+
+
+    /* =========================
+       PROGRESS BAR
+       ========================= */
+
+    progress.addEventListener("input", function () {
+
+        if (!Number.isFinite(audio.duration)) return;
+
+        audio.currentTime =
+            (progress.value / 100) * audio.duration;
+
+        updateNeedle();
+
+    });
+
+
+    /* =========================
+       BACK
+       ========================= */
+
+    backBtn.addEventListener("click", function () {
+
+        audio.currentTime =
+            Math.max(0, audio.currentTime - 10);
+
+        updateNeedle();
+
+    });
+
+
+    /* =========================
+       FORWARD
+       ========================= */
+
+    forwardBtn.addEventListener("click", function () {
+
+        if (!Number.isFinite(audio.duration)) return;
 
         audio.currentTime =
             Math.min(
@@ -1396,350 +847,136 @@ forward.addEventListener(
                 audio.currentTime + 10
             );
 
-
         updateNeedle();
 
-    }
-);
+    });
 
 
-/* ================================================= */
-/* AUDIO PLAY */
-/* ================================================= */
+    /* =========================
+       NEEDLE TRACKING
+       ========================= */
 
-audio.addEventListener(
-    "play",
-    function () {
+    function updateNeedle() {
 
-        record.classList.add(
-            "spinning"
-        );
+        if (
+            !Number.isFinite(audio.duration) ||
+            audio.duration <= 0
+        ) {
+            return;
+        }
 
-
-        needleArm.classList.add(
-            "playing"
-        );
-
-
-        play.textContent =
-            "⏸ PAUSE";
-
-    }
-);
-
-
-/* ================================================= */
-/* AUDIO PAUSE */
-/* ================================================= */
-
-audio.addEventListener(
-    "pause",
-    function () {
-
-        record.classList.remove(
-            "spinning"
-        );
-
-
-        needleArm.classList.remove(
-            "playing"
-        );
-
-
-        play.textContent =
-            "▶ PLAY";
-
-    }
-);
-
-
-/* ================================================= */
-/* AUDIO ENDED */
-/* ================================================= */
-
-audio.addEventListener(
-    "ended",
-    function () {
-
-        record.classList.remove(
-            "spinning"
-        );
-
-
-        needleArm.classList.remove(
-            "playing"
-        );
-
-
-        play.textContent =
-            "▶ PLAY";
-
-    }
-);
-
-
-/* ================================================= */
-/* METADATA */
-/* ================================================= */
-
-audio.addEventListener(
-    "loadedmetadata",
-    function () {
-
-        duration.textContent =
-            formatTime(
-                audio.duration
-            );
-
-
-        updateNeedle();
-
-    }
-);
-
-
-/* ================================================= */
-/* PROGRESS */
-/* ================================================= */
-
-audio.addEventListener(
-    "timeupdate",
-    function () {
-
-        currentTime.textContent =
-            formatTime(
-                audio.currentTime
-            );
-
-
-        const percentage =
-            audio.duration
-            ? (
-                audio.currentTime /
-                audio.duration
-            ) * 100
-            : 0;
-
-
-        progressBar.style.width =
-            percentage + "%";
+        const progressAmount =
+            audio.currentTime / audio.duration;
 
 
         /*
-            Move needle inward
-            with the music.
+           The needle starts pointing
+           down-left toward the outside
+           of the record.
+
+           As the track plays it gradually
+           rotates further toward the centre.
         */
 
-        updateNeedle();
+        const startAngle = 135;
 
-    }
-);
+        const endAngle = 155;
 
-
-/* ================================================= */
-/* RGB */
-/* ================================================= */
-
-function clamp(value) {
-
-    value =
-        Number(value);
+        const angle =
+            startAngle +
+            (endAngle - startAngle) * progressAmount;
 
 
-    if (
-        !Number.isFinite(value)
-    ) {
+        needleArm.style.setProperty(
+            "--needle-angle",
+            `${angle}deg`
+        );
 
-        return 0;
+        needleArm.style.transform =
+            `rotate(${angle}deg)`;
 
     }
 
 
-    return Math.max(
-        0,
-        Math.min(
-            255,
-            value
-        )
-    );
+    /* =========================
+       RESET NEEDLE
+       ========================= */
 
-}
+    function resetNeedle() {
 
+        const startAngle = 135;
 
-/* ================================================= */
-/* VINYL RGB */
-/* ================================================= */
-
-function updateVinyl() {
-
-    const r =
-        clamp(
-            document.getElementById(
-                "vinylR"
-            ).value
+        needleArm.style.setProperty(
+            "--needle-angle",
+            `${startAngle}deg`
         );
 
+        needleArm.style.transform =
+            `rotate(${startAngle}deg)`;
 
-    const g =
-        clamp(
-            document.getElementById(
-                "vinylG"
-            ).value
-        );
+    }
 
 
-    const b =
-        clamp(
-            document.getElementById(
-                "vinylB"
-            ).value
-        );
+    /* =========================
+       VINYL RGB
+       ========================= */
 
+    function updateVinyl() {
 
-    const colour =
-        `rgb(${r}, ${g}, ${b})`;
+        const r = Number(vinylR.value);
+        const g = Number(vinylG.value);
+        const b = Number(vinylB.value);
 
-
-    const darkerColour =
-        `rgb(
-            ${Math.max(
-                0,
-                r - 38
-            )},
-
-            ${Math.max(
-                0,
-                g - 38
-            )},
-
-            ${Math.max(
-                0,
-                b - 38
-            )}
-        )`;
-
-
-    record.style.background =
-        `
-        repeating-radial-gradient(
-            circle,
-
-            ${colour} 0px,
-            ${colour} 2px,
-
-            ${darkerColour} 3px,
-            ${darkerColour} 4px
-        )
+        record.style.background = `
+            repeating-radial-gradient(
+                circle at center,
+                rgb(${r}, ${g}, ${b}) 0px,
+                rgb(${r}, ${g}, ${b}) 3px,
+                rgb(
+                    ${Math.max(0, r - 15)},
+                    ${Math.max(0, g - 15)},
+                    ${Math.max(0, b - 15)}
+                ) 4px,
+                rgb(${r}, ${g}, ${b}) 6px
+            )
         `;
 
-
-    document.getElementById(
-        "vinylPreview"
-    ).style.background =
-        colour;
-
-}
+    }
 
 
-/* ================================================= */
-/* MAT RGB */
-/* ================================================= */
-
-function updateMat() {
-
-    const r =
-        clamp(
-            document.getElementById(
-                "matR"
-            ).value
-        );
+    vinylR.addEventListener("input", updateVinyl);
+    vinylG.addEventListener("input", updateVinyl);
+    vinylB.addEventListener("input", updateVinyl);
 
 
-    const g =
-        clamp(
-            document.getElementById(
-                "matG"
-            ).value
-        );
+    /* =========================
+       MAT RGB
+       ========================= */
 
+    function updateMat() {
 
-    const b =
-        clamp(
-            document.getElementById(
-                "matB"
-            ).value
-        );
+        const r = Number(matR.value);
+        const g = Number(matG.value);
+        const b = Number(matB.value);
 
-
-    const colour =
-        `rgb(${r}, ${g}, ${b})`;
-
-
-    mat.style.background =
-        colour;
-
-
-    document.getElementById(
-        "matPreview"
-    ).style.background =
-        colour;
-
-}
-
-
-/* ================================================= */
-/* VINYL INPUTS */
-/* ================================================= */
-
-[
-    "vinylR",
-    "vinylG",
-    "vinylB"
-
-].forEach(
-    function (id) {
-
-        document
-            .getElementById(id)
-            .addEventListener(
-                "input",
-                updateVinyl
-            );
+        mat.style.background =
+            `rgb(${r}, ${g}, ${b})`;
 
     }
-);
 
 
-/* ================================================= */
-/* MAT INPUTS */
-/* ================================================= */
-
-[
-    "matR",
-    "matG",
-    "matB"
-
-].forEach(
-    function (id) {
-
-        document
-            .getElementById(id)
-            .addEventListener(
-                "input",
-                updateMat
-            );
-
-    }
-);
+    matR.addEventListener("input", updateMat);
+    matG.addEventListener("input", updateMat);
+    matB.addEventListener("input", updateMat);
 
 
-/* ================================================= */
-/* INITIALISE */
-/* ================================================= */
+    /* =========================
+       INITIAL SETUP
+       ========================= */
 
-updateVinyl();
-
-updateMat();
+    updateVinyl();
+    updateMat();
+    resetNeedle();
 
 </script>
 
